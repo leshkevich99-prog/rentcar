@@ -8,7 +8,7 @@ export const Hero: React.FC = () => {
       {/* Background with overlay */}
       <div className="absolute inset-0 bg-dark-900">
         <img 
-            src="https://picsum.photos/id/1071/1920/1080" 
+            src="/images/mainback.png" 
             alt="Hero Background" 
             className="w-full h-full object-cover opacity-60"
         />
