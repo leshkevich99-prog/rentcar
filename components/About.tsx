@@ -13,7 +13,7 @@ export const About: React.FC = () => {
           <div className="relative">
             <div className="relative z-10 border border-white/10 p-2">
                <img 
-                 src="https://picsum.photos/id/1033/800/1000" 
+                 src="/images/about.jpg" 
                  alt="Luxury Interior" 
                  className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700"
                />
