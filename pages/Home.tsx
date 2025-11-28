@@ -55,7 +55,7 @@ export const Home: React.FC<HomeProps> = ({ cars, onBookCar }) => {
       {/* Promo Section */}
       <section className="relative py-32 bg-dark-900 overflow-hidden border-t border-white/5">
          <div className="absolute inset-0">
-           <img src="https://picsum.photos/id/191/1920/600" alt="Road" className="w-full h-full object-cover opacity-20 grayscale" />
+           <img src="images/maindown.png" alt="Road" className="w-full h-full object-cover opacity-20 grayscale" />
            <div className="absolute inset-0 bg-gradient-to-r from-dark-900 via-dark-900/80 to-transparent" />
          </div>
          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
