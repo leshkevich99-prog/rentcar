@@ -55,6 +55,15 @@ export const CARS: Car[] = [
     imageUrl: 'https://picsum.photos/seed/porsche/800/600',
     available: true
   },
+    {
+    id: '7',
+    name: 'Mercedes EQS',
+    category: CarCategory.SPORT,
+    pricePerDay: 1800,
+    specs: { hp: 440, zeroToSixty: 4.7, maxSpeed: 320 },
+    imageUrl: '/images/mbeqs.png',
+    available: true
+  },
 ];
 
 export const AI_SYSTEM_INSTRUCTION = `
