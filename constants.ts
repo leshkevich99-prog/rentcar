@@ -7,7 +7,7 @@ export const CARS: Car[] = [
     category: CarCategory.SPORT,
     pricePerDay: 3500,
     specs: { hp: 640, zeroToSixty: 2.9, maxSpeed: 325 },
-    imageUrl: 'https://picsum.photos/seed/lambo/800/600',
+    imageUrl: 'images/lamborghinihuracan.png',
     available: true
   },
   {
