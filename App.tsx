@@ -13,10 +13,12 @@ import { UserAgreement } from './components/UserAgreement';
 import { Home } from './pages/Home';
 import { Admin } from './pages/Admin';
 import { Car } from './types';
-import { CARS } from './constants';
+import { CARS as MOCK_CARS } from './constants';
+import { fetchCars, saveCar, deleteCarById } from './services/supabase';
 
 function App() {
-  const [cars, setCars] = useState<Car[]>(CARS);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const location = useLocation();
 
@@ -24,6 +26,27 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Load cars from Supabase
+  useEffect(() => {
+    const loadCars = async () => {
+      try {
+        const data = await fetchCars();
+        if (data.length > 0) {
+          setCars(data);
+        } else {
+          // Fallback if DB is empty, use mock but generally we want DB
+          setCars(MOCK_CARS); 
+        }
+      } catch (error) {
+        console.error("Failed to load cars", error);
+        setCars(MOCK_CARS);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadCars();
+  }, []);
 
   const handleBookCar = (car: Car) => {
     setSelectedCar(car);
@@ -33,18 +56,40 @@ function App() {
     setSelectedCar(null);
   };
 
-  // Admin handlers
-  const handleAddCar = (newCar: Car) => {
-    setCars([...cars, newCar]);
+  // Admin handlers wrapper
+  const handleAddCar = async (newCar: Car) => {
+    // Optimistic update
+    setCars(prev => [newCar, ...prev]);
+    try {
+      await saveCar(newCar);
+      // Reload to get real ID
+      const updated = await fetchCars();
+      setCars(updated);
+    } catch (e) {
+      console.error(e);
+      alert('Ошибка при сохранении');
+    }
   };
 
-  const handleUpdateCar = (updatedCar: Car) => {
-    setCars(cars.map(c => c.id === updatedCar.id ? updatedCar : c));
+  const handleUpdateCar = async (updatedCar: Car) => {
+    setCars(prev => prev.map(c => c.id === updatedCar.id ? updatedCar : c));
+    try {
+      await saveCar(updatedCar);
+    } catch (e) {
+      console.error(e);
+      alert('Ошибка при обновлении');
+    }
   };
 
-  const handleDeleteCar = (id: string) => {
+  const handleDeleteCar = async (id: string) => {
     if (window.confirm('Вы уверены, что хотите удалить этот автомобиль?')) {
-      setCars(cars.filter(c => c.id !== id));
+      setCars(prev => prev.filter(c => c.id !== id));
+      try {
+        await deleteCarById(id);
+      } catch (e) {
+        console.error(e);
+        alert('Ошибка при удалении');
+      }
     }
   };
 
